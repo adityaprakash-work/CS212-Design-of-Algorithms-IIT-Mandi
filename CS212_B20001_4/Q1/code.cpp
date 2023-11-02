@@ -82,24 +82,26 @@ vector<int> dijkstra(const int N, const int M, const vector<tuple<int, int, int>
 
 // ---MAIN----------------------------------------------------------------------
 int main() {
+    // User input
     // int N, M;
     // vector<tuple<int, int, int>> edges;
     // tie(N, M, edges) = userInput();
+    // Random input
     // int N, M;
     // vector<tuple<int, int, int>> edges;
     // tie(N, M, edges) = randomInput();
     // Sample input
     int N = 5, M = 6;
     vector<tuple<int, int, int>> edges = {
-        {0, 1, 1},
+        {0, 1, -7},
         {0, 2, 2},
         {1, 2, 3},
         {1, 3, 4},
         {2, 3, 5},
         {3, 4, 6}
     };
-    int source = 0;
-    vector<int> dist = dijkstra(N, M, edges, source);
+    int start = 0;
+    vector<int> dist = dijkstra(N, M, edges, start);
     for (int i = 0; i < N; i++) {
         cout << dist[i] << " ";
     }
