@@ -2,6 +2,8 @@
 #include <iostream>
 #include <vector>
 #include <tuple>
+#include <queue>
+#include <limits>
 
 using namespace std;
 
@@ -46,29 +48,56 @@ tuple<int, int, vector<tuple<int, int, int>>> randomInput() {
 // ---SOLUTION------------------------------------------------------------------
 // Dijkstra's algorithm implementation
 // Return the shortest path from source for each node in the graph.
-vector<int> dijkstra(int N, int M, vector<tuple<int, int, int>> edges, int source) {
-    vector<int> dist(N, INT_MAX);
-    dist[source] = 0;
-    for (int i = 0; i < N - 1; i++) {
-        for (auto edge : edges) {
-            int u, v, w;
-            tie(u, v, w) = edge;
-            if (dist[u] != INT_MAX && dist[u] + w < dist[v]) {
-                dist[v] = dist[u] + w;
+
+const int INF = numeric_limits<int>::max();
+
+vector<int> dijkstra(const int N, const int M, const vector<tuple<int, int, int>>& edges, const int start) {
+    vector<int> dist(N, INF);
+    dist[start] = 0;
+
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    pq.push({ 0, start });
+
+    while (!pq.empty()) {
+        int v = pq.top().second;
+        int d = pq.top().first;
+        pq.pop();
+
+        if (d != dist[v]) {
+            continue;  // Skip outdated entries
+        }
+
+        for (const auto& edge : edges) {
+            int a, b, w;
+            tie(a, b, w) = edge;
+            if (a == v && dist[a] + w < dist[b]) {
+                dist[b] = dist[a] + w;
+                pq.push({ dist[b], b });
             }
         }
     }
+
     return dist;
 }
 
 // ---MAIN----------------------------------------------------------------------
 int main() {
-    int N, M;
-    vector<tuple<int, int, int>> edges;
-    tie(N, M, edges) = userInput();
+    // int N, M;
+    // vector<tuple<int, int, int>> edges;
+    // tie(N, M, edges) = userInput();
     // int N, M;
     // vector<tuple<int, int, int>> edges;
     // tie(N, M, edges) = randomInput();
+    // Sample input
+    int N = 5, M = 6;
+    vector<tuple<int, int, int>> edges = {
+        {0, 1, 1},
+        {0, 2, 2},
+        {1, 2, 3},
+        {1, 3, 4},
+        {2, 3, 5},
+        {3, 4, 6}
+    };
     int source = 0;
     vector<int> dist = dijkstra(N, M, edges, source);
     for (int i = 0; i < N; i++) {

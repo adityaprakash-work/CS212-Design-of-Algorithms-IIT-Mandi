@@ -86,8 +86,13 @@ int main() {
     vector<pair<int, int>> dependencies;
 
     // Input
-    tie(N, M, dependencies) = userInput();
-
+    tie(N, M, dependencies) = randomInput();
+    // Print input
+    cout << "N = " << N << ", M = " << M << endl;
+    cout << "Dependencies: " << endl;
+    for (auto dep : dependencies) {
+        cout << dep.first << " " << dep.second << endl;
+    }
     if (canFinish(N, dependencies)) {
         cout << "Possible for all students to complete their assignments";
     }
